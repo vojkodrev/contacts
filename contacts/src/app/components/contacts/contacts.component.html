@@ -1,6 +1,87 @@
-<p>
+<!-- <p>
   contacts works!
 </p>
 
 <p><a [routerLink]="['/contacts/edit', 12]">Edit 12</a></p>
-<p><a [routerLink]="['/contacts/edit', 13]">Edit 13</a></p>
+<p><a [routerLink]="['/contacts/edit', 13]">Edit 13</a></p> -->
+
+
+
+<div class="row d-flex align-items-center">
+  <div class="col-6">
+    <h1>Contacts</h1>
+  </div>
+
+  <div class="col-6">
+    <button type="button" class="btn btn-primary float-right" (click)="startAddingContact()">Add new</button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contacts; let i = index" class="contacts-row" (click)="startEditingContact(contact, i)">
+          <th>{{contact.name}}</th>
+          <td>{{contact.email}}</td>
+          <td>{{contact.phoneNumber}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+<ng-template #addEditContactModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{addEditMode == 0 ? "Add" : "Edit"}} Contact</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form #addEditContactForm="ngForm" (submit)="saveContact(modal)">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" [(ngModel)]="addEditItem.name" #name="ngModel" required name="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Name">
+        <div *ngIf="name.invalid && (name.dirty || name.touched)">
+          <small *ngIf="name.errors.required" class="text-danger">
+            Name is required.
+          </small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" [(ngModel)]="addEditItem.email" #email="ngModel" required name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="someone@example.email">
+        <div *ngIf="email.invalid && (email.dirty || email.touched)">
+          <small *ngIf="email.errors.required" class="text-danger">
+            Email is required.
+          </small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input type="text" [(ngModel)]="addEditItem.phoneNumber" #phoneNumber="ngModel" required name="phoneNumber" class="form-control" id="phoneNumber" aria-describedby="phonenNumberHelp" placeholder="XXX-XXX-XXXX">
+        <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)">
+          <small *ngIf="phoneNumber.errors.required" class="text-danger">
+            Phone Number is required.
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> -->
+      <button type="submit" [disabled]="addEditContactForm.invalid" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</ng-template>

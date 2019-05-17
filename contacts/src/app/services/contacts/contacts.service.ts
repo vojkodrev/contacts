@@ -41,6 +41,20 @@ export class ContactsService {
     return this.localStorageService.setItem(CONTACTS_STORAGE, JSON.stringify(contacts));
   }
 
+  public add(name: string, email: string, phoneNumber: string) {
+    const all = this.getAll();
+    
+    const item:IContact = {
+      email: email,
+      phoneNumber: phoneNumber,
+      name: name
+    };
+
+    all.splice(0, 0, item);
+
+    this.save(all);
+  }
+
   public edit(index: number, name: string, email: string, phoneNumber: string) {
     const all = this.getAll();
     const item = all[index];

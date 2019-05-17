@@ -7,6 +7,11 @@ enum AddEditMode {
   Edit
 }
 
+enum DeleteMode {
+  Confirm,
+  Normal
+}
+
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
@@ -16,10 +21,13 @@ export class ContactsComponent implements OnInit {
 
   contacts: IContact[];
 
-  addEditItem: IContact;
+  addEditContact: IContact;
   editIndex: number;
   addEditMode: AddEditMode;
   @ViewChild("addEditContactModal") addEditContactModal;
+
+  deleteButtonText: string;
+  deleteMode: DeleteMode;
 
   constructor(
     // private route: ActivatedRoute,
@@ -73,13 +81,15 @@ export class ContactsComponent implements OnInit {
     
     this.editIndex = index;
     this.addEditMode = AddEditMode.Edit;
-    this.addEditItem = Object.assign({}, contact);
+    this.addEditContact = Object.assign({}, contact);
+    this.deleteButtonText = "Delete";
+    this.deleteMode = DeleteMode.Normal;
     this.openAddEditContactModal();
   }
 
   startAddingContact() {
     this.addEditMode = AddEditMode.Add;
-    this.addEditItem = {
+    this.addEditContact = {
       email: "",
       name: "",
       phoneNumber: ""
@@ -98,14 +108,25 @@ export class ContactsComponent implements OnInit {
 
   saveContact(modal) {
     if (this.addEditMode == AddEditMode.Add) {
-      this.contactsService.add(this.addEditItem.name, this.addEditItem.email, this.addEditItem.phoneNumber);
-      this.contacts.splice(0, 0, Object.assign({}, this.addEditItem));
+      this.contactsService.add(this.addEditContact.name, this.addEditContact.email, this.addEditContact.phoneNumber);
+      this.contacts.splice(0, 0, Object.assign({}, this.addEditContact));
     } else if (this.addEditMode == AddEditMode.Edit) {
-      this.contactsService.edit(this.editIndex, this.addEditItem.name, this.addEditItem.email, this.addEditItem.phoneNumber);
-      this.contacts[this.editIndex] = Object.assign({}, this.addEditItem);
+      this.contactsService.edit(this.editIndex, this.addEditContact.name, this.addEditContact.email, this.addEditContact.phoneNumber);
+      this.contacts[this.editIndex] = Object.assign({}, this.addEditContact);
     }
 
     modal.close("save clicked");
   }
 
+  deleteContact(modal) {
+
+    if (this.deleteMode == DeleteMode.Normal) {
+      this.deleteButtonText = "Are you sure?";
+      this.deleteMode = DeleteMode.Confirm;
+    } else if (this.deleteMode == DeleteMode.Confirm) {
+      this.contactsService.remove(this.editIndex);
+      this.contacts.splice(this.editIndex, 1);
+      modal.close("delete clicked");
+    }
+  }
 }

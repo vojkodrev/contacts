@@ -55,6 +55,13 @@ export class ContactsService {
     this.save(all);
   }
 
+  public remove(index: number) {
+    const all = this.getAll();
+    all.splice(index, 1);
+
+    this.save(all);
+  }
+
   public edit(index: number, name: string, email: string, phoneNumber: string) {
     const all = this.getAll();
     const item = all[index];

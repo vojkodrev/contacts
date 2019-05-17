@@ -17,7 +17,10 @@ export class ContactsService {
   constructor(
     private localStorageService: LocalStorageService
   ) { 
-    if (!localStorageService.getItem(CONTACTS_STORAGE)) {
+    let all = null;
+    try { all = this.getAll(); } catch (e) { }
+
+    if (!Array.isArray(all)) {
       this.save([
         {"name": "Leonardo da Vinci", "email": "leonardo@e-mail.com", "phoneNumber": "202-555-0166"},
         {"name": "William Shakespeare", "email": "william@e-mail.com", "phoneNumber": "202-555-0157"},

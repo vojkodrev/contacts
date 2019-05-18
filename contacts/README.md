@@ -21,7 +21,7 @@ Angular7
 ## Running with Docker
 
 ```
-docker build .
+docker build -t contacts .
 docker run -p 8080:8080 -d --name contacts contacts
 ```
 

@@ -6,7 +6,7 @@ Project manages user's contacts.
 
 This are instructions on how to start the application.
 
-### Prerequisites
+## Prerequisites
 
 ```
 Docker
@@ -24,6 +24,8 @@ Angular7
 docker build -t contacts .
 docker run -p 8080:8080 -d --name contacts contacts
 ```
+
+Navigate to `http://localhost:8080/`
 
 ## Stopping Docker
 

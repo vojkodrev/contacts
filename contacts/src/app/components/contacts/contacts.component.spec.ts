@@ -105,18 +105,7 @@ describe('ContactsComponent', () => {
     contactsComponent.deleteContact(modalSpy);
 
     expect(contactsComponent.deleteButtonText).toBe("Are you sure?");
-    expect(contactsComponent.deleteMode).toBe(DeleteMode.Confirm);
-    expect(modalSpy.close.calls.mostRecent()).not.toBeDefined();
-  });  
-
-  it('should set delete mode to confirm and change delete button text but not close modal when contact is deleted', () => {
-
-    contactsComponent.deleteMode = DeleteMode.Normal;
-    
-    contactsComponent.deleteContact(modalSpy);
-
-    expect(contactsComponent.deleteButtonText).toBe("Are you sure?");
-    expect(contactsComponent.deleteMode).toBe(DeleteMode.Confirm);
+    expect(contactsComponent.deleteMode).toBe(<number>DeleteMode.Confirm);
     expect(modalSpy.close.calls.mostRecent()).not.toBeDefined();
   });  
 

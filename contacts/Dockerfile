@@ -9,7 +9,7 @@ RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app/
 WORKDIR /opt/app
 COPY . .
 
-RUN "node_modules/@angular/cli/bin/ng" test --watch=false --browsers=ChromeHeadless
+# RUN "node_modules/@angular/cli/bin/ng" build
 
 EXPOSE 8080
 
